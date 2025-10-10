@@ -1,0 +1,392 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter_Regular.ttf') format('ttf');
+}
+
+
+/* Grundstruktur */
+body {
+  font-family: "Inter";
+  background-color: #252525;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+
+.container-full {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: #faef70;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* Filter Inputs */
+.filters-full {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.filters-full input,
+.filters-full select {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #faef70;
+  flex: 1;
+  background-color: #1f1f1f;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.filters-full input:focus,
+.filters-full select:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 6px #faef70;
+}
+
+/* Leads Header */
+.header-full {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.add-lead-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #faef70;
+  color: #252525;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.1s;
+}
+
+.add-lead-button:hover {
+  background-color: #f7e857;
+  transform: translateY(-1px);
+}
+
+/* Tabelle */
+.table-full {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  background-color: #252525;
+}
+
+.table-full th,
+.table-full td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #faef70;
+  color: #ffffff;
+  transition: background 0.2s;
+}
+
+.table-full th {
+  background-color: #000000;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.table-full tbody tr:hover {
+  background-color: rgba(250, 239, 112, 0.1);
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-new {
+  background-color: #faef70;
+  color: #252525;
+}
+
+.status-qualified {
+  background-color: #000000;
+  color: #faef70;
+  border: 1px solid #faef70;
+}
+
+.status-lost {
+  background-color: #252525;
+  color: #faef70;
+  border: 1px solid #faef70;
+}
+
+/* Select dropdown (Aktionen) */
+.table-full select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #faef70;
+  background-color: #252525;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.table-full select:hover {
+  background-color: rgba(250,239,112,0.1);
+}
+
+.table-full select option {
+  background-color: #252525;
+  color: #faef70;
+}
+
+.inline-status-select {
+  background-color: #252525;
+  border: 1px solid #faef70;
+  color: #faef70;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.inline-status-select option {
+  background-color: #252525;
+  color: #faef70;
+}
+
+.table-full td {
+  position: relative;
+}
+
+.absolute-dropdown {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 100%;
+  background-color: #252525;
+  border: 1px solid #faef70;
+  color: #faef70;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Badge soll klar als klickbar wirken */
+.status-badge {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+/* Dezente Hover-Reaktion */
+.status-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 6px #faef70;
+}
+
+/* Für flüssige Farbwechsel beim Status */
+.status-badge {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Pagination */
+.pagination-full {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.pagination-full button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #faef70;
+  background-color: #252525;
+  color: #faef70;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.pagination-full button:hover:not(:disabled) {
+  background-color: #faef70;
+  color: #252525;
+}
+
+.pagination-full button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #1f1f1f;
+  padding: 32px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  animation: slideDown 0.2s ease-in-out;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: none;
+  font-size: 22px;
+  color: #faef70;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.modal-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Lead Form */
+.form-card input,
+.form-card select,
+.form-card button {
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #faef70;
+  background-color: #252525;
+  color: white;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 6px #faef70;
+}
+
+.form-card button {
+  background-color: #faef70;
+  color: #252525;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-card button:hover:not(:disabled) {
+  background-color: #f7e857;
+}
+
+.form-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideDown {
+  from {transform: translateY(-10px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+
+
+/* LeadForm */
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.divider {
+  border-color: #faef70;
+  margin: 12px 0;
+}
+
+.email-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.email-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #faef70;
+  background-color: #252525;
+  color: white;
+}
+
+.primary-label {
+  color: #faef70;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remove-email {
+  background-color: #000;
+  color: #faef70;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-email-button {
+  background-color: #faef70;
+  color: #252525;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.875rem;
+  margin-top: 2px;
+}
