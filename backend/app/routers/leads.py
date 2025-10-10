@@ -62,7 +62,7 @@ def get_leads(
     """
 
     logger.info(f"get_leads(q={q}, status={status}, limit={limit}, offset={offset})")
-    leads, total = crud.list_leads(db, q=q, status=status, limit=limit, offset=offset)
+    leads, total = crud.get_leads(db, q=q, status=status, limit=limit, offset=offset)
     logger.info(f"get_leads returned {len(leads)} leads (total={total})")
     
     return {"items": leads, "total": total}
