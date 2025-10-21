@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Header
 from sqlalchemy.orm import Session
 from typing import Optional
 from ..database import SessionLocal
@@ -23,7 +23,7 @@ def get_db():
 
 
 @router.post("", response_model=schemas.LeadRead, status_code=status.HTTP_201_CREATED)
-def create_lead(lead_data: schemas.LeadCreate, db: Session = Depends(get_db)):
+def create_lead(lead_data: schemas.LeadCreate, db: Session = Depends(get_db), x_tenant_id: str = Header(..., alias="X-Tenant-ID")):
     """
     POST /leads
     Erstellt einen neuen Lead (optional mit Primärkontakt und E-Mail).
@@ -35,7 +35,7 @@ def create_lead(lead_data: schemas.LeadCreate, db: Session = Depends(get_db)):
     
     try:
         with db.begin():
-            lead = crud.create_lead(db, lead_data)
+            lead = crud.create_lead(db, lead_data, tenant_id=x_tenant_id)
             db.refresh(lead)
             logger.info(f"Lead created successfully: ID={lead.id}")
             return lead
@@ -53,6 +53,7 @@ def get_leads(
     status: Optional[models.LeadStatus] = Query(None),
     limit: int = Query(20, ge=1, le=200),
     offset: int = Query(0, ge=0),
+    x_tenant_id: str = Header(..., alias="X-Tenant-ID"),
     db: Session = Depends(get_db),
 ):
     """
@@ -61,9 +62,9 @@ def get_leads(
     Unterstützt Pagination (limit/offset).
     """
 
-    logger.info(f"get_leads(q={q}, status={status}, limit={limit}, offset={offset})")
-    leads, total = crud.get_leads(db, q=q, status=status, limit=limit, offset=offset)
-    logger.info(f"get_leads returned {len(leads)} leads (total={total})")
+    logger.info(f"get_leads(q={q}, status={status}, limit={limit}, offset={offset}, tenant={x_tenant_id})")
+    leads, total = crud.get_leads(db, tenant_id=x_tenant_id, q=q, status=status, limit=limit, offset=offset)
+    logger.info(f"get_leads returned {len(leads)} leads (total={total}) for tenant {x_tenant_id}")
     
     return {"items": leads, "total": total}
 

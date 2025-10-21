@@ -1,9 +1,12 @@
 import axios from "axios";
 
+const TENANT_ID = "tenant123";
+
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE || "http://localhost:8000",
   headers: {
     "Content-Type": "application/json",
+    "X-Tenant-ID": TENANT_ID,
   },
 });
 
@@ -14,6 +17,11 @@ export type Lead = {
   domain?: string;
   status: "new" | "qualified" | "lost";
   created_at: string;
+  priority: number;
+  company_size?: number;
+  industry?: string;
+  last_contacted?: string;
+  tenant_id?: string;
   primary_contact?: {
     id: number;
     first_name?: string;
@@ -28,7 +36,7 @@ export async function fetchLeads(
   status?: string,
   limit = 20,
   offset = 0,
-  sortField?: keyof Lead | "primary_contact" | "status",
+  sortField?: keyof Lead | "primary_contact" | "status" | "priority",
   sortOrder: "asc" | "desc" = "asc"
 ) {
   const params: any = { limit, offset };
@@ -39,7 +47,7 @@ export async function fetchLeads(
   let data = res.data;
 
   // Sortierung im Frontend (nach Name, Domain, Status oder Primärkontakt)
-  if (Array.isArray(data.items) && sortField) {
+  if (Array.isArray(data.items) && sortField && sortField !== "priority") {
     data.items.sort((a: Lead, b: Lead) => {
       let aValue: string = "";
       let bValue: string = "";

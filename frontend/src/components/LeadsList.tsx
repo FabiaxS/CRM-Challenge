@@ -14,12 +14,40 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={className}>{status}</span>;
 }
 
+function PriorityBadge({ priority }: { priority: number }) {
+  let label = "Low";
+  let color = "#4caf50";
+
+  if (priority >= 50 && priority < 80) {
+    label = "Medium";
+    color = "#ffeb3b";
+  } else if (priority >= 80) {
+    label = "High";
+    color = "#f44336";
+  }
+
+  return (
+    <span
+      style={{
+        backgroundColor: color,
+        color: "#252525",
+        padding: "4px 8px",
+        borderRadius: "12px",
+        fontWeight: "bold",
+        fontSize: "12px",
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
 // Hauptkomponente: LeadsList
 export default function LeadsList({ q, status, page, setPage }: any) {
   const limit = 10;
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
-  const [sortField, setSortField] = useState<keyof Lead | "primary_contact" | "status">("name");
+  const [sortField, setSortField] = useState<keyof Lead | "primary_contact" | "status" | "priority">("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [editingStatusId, setEditingStatusId] = useState<number | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
@@ -45,7 +73,7 @@ export default function LeadsList({ q, status, page, setPage }: any) {
     }
   }, [editingStatusId]);
 
-  function handleSort(field: keyof Lead | "primary_contact" | "status") {
+  function handleSort(field: keyof Lead | "primary_contact" | "status" | "priority") {
     if (sortField === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
@@ -54,7 +82,7 @@ export default function LeadsList({ q, status, page, setPage }: any) {
     }
   }
 
-  function renderSortIcon(field: keyof Lead | "primary_contact" | "status") {
+  function renderSortIcon(field: keyof Lead | "primary_contact" | "status" | "priority") {
     if (sortField !== field) return "↕";
     return sortOrder === "asc" ? "↑" : "↓";
   }
@@ -89,6 +117,10 @@ export default function LeadsList({ q, status, page, setPage }: any) {
                 Kontakt {renderSortIcon("primary_contact")}
               </th>
               <th onClick={() => handleSort("status")}>Status {renderSortIcon("status")}</th>
+              <th onClick={() => handleSort("priority")}>Priorität {renderSortIcon("priority")}</th>
+              <th>Unternehmensgröße</th>
+              <th>Branche</th>
+              <th>Letzte Aktivität</th>
             </tr>
           </thead>
           <tbody>
@@ -127,6 +159,10 @@ export default function LeadsList({ q, status, page, setPage }: any) {
                     </span>
                   )}
                 </td>
+                <td><PriorityBadge priority={lead.priority} /></td>
+                <td>{lead.company_size || "-"}</td>
+                <td>{lead.industry || "-"}</td>
+                <td>{lead.last_contacted ? new Date(lead.last_contacted).toLocaleDateString() : "-"}</td>
               </tr>
             ))}
           </tbody>

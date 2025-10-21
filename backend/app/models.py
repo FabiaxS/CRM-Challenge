@@ -27,9 +27,17 @@ class Lead(Base):
     status = Column(Enum(LeadStatus), default=LeadStatus.new, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
     
+    tenant_id = Column(String, nullable=False, index=True)
+
     # Optionaler Primärkontakt (FK)
     primary_contact_id = Column(Integer, ForeignKey("contacts.id", ondelete="SET NULL"), nullable=True)
     primary_contact = relationship("Contact", foreign_keys=[primary_contact_id])
+
+    priority = Column(Integer, default=0, nullable=False)
+    company_size = Column(Integer, nullable=True)
+    industry = Column(String, nullable=True)
+    last_contacted = Column(DateTime(timezone=True), nullable=True)
+
 
 class Contact(Base):
     __tablename__ = "contacts"
@@ -37,6 +45,7 @@ class Contact(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String, nullable=True)
     last_name = Column(String, nullable=True)
+    tenant_id = Column(String, nullable=False, index=True)
 
     emails = relationship("ContactEmail", back_populates="contact", cascade="all, delete-orphan")
 

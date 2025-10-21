@@ -54,6 +54,9 @@ export default function LeadForm({ onCreated }: Props) {
     first_name: "",
     last_name: "",
     emails: [{ value: "", is_primary: true }],
+    company_size: "",
+    industry: "",
+    last_contacted: "",
   });
 
   const [errors, setErrors] = React.useState<Record<string, any>>({});
@@ -91,6 +94,9 @@ export default function LeadForm({ onCreated }: Props) {
       name: form.name,
       domain: form.domain || undefined,
       status: form.status,
+      company_size: form.company_size || undefined,
+      industry: form.industry || undefined,
+      last_contacted: form.last_contacted || undefined,
     };
 
     if (form.first_name || form.last_name || form.emails.some((e) => e.value)) {
@@ -134,6 +140,26 @@ export default function LeadForm({ onCreated }: Props) {
         <option value="qualified">qualified</option>
         <option value="lost">lost</option>
       </select>
+
+      <input
+        type="number"
+        value={form.company_size || ""}
+        onChange={(e) => onChange("company_size", Number(e.target.value))}
+        placeholder="Unternehmensgröße"
+      />
+
+      <input
+        value={form.industry || ""}
+        onChange={(e) => onChange("industry", e.target.value)}
+        placeholder="Branche"
+      />
+
+      <input
+        type="date"
+        value={form.last_contacted || ""}
+        onChange={(e) => onChange("last_contacted", e.target.value)}
+        placeholder="Letzte Kontaktaufnahme"
+      />
 
       <hr className="divider" />
 

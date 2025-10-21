@@ -23,6 +23,9 @@ class LeadCreate(BaseModel):
     domain: Optional[str] = None
     status: Optional[LeadStatus] = LeadStatus.new
     primary_contact: Optional[ContactCreate] = None
+    company_size: Optional[int] = None
+    industry: Optional[str] = None
+    last_contacted: Optional[datetime] = None
 
 # Read Schemas
 class ContactEmailRead(BaseModel):
@@ -46,7 +49,12 @@ class LeadRead(BaseModel):
     domain: Optional[str]
     status: LeadStatus
     created_at: datetime
+    priority: int
     primary_contact: Optional[ContactRead] = None
+    company_size: Optional[int] = None
+    industry: Optional[str] = None
+    last_contacted: Optional[datetime] = None
+    tenant_id: str
 
     model_config = ConfigDict(from_attributes=True)
 
